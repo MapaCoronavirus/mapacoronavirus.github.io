@@ -173,3 +173,5 @@ textarea{
         width: auto;
     }
 }
+/*Mapa*/
+#map { height: 480px; }

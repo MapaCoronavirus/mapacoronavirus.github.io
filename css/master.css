@@ -1,0 +1,175 @@
+/*tags*/
+a:hover{
+    color:red;
+}
+a,
+a:visited{
+    color: blue;
+}
+button{
+    cursor:pointer;
+    display:block;
+    margin:0.75em auto;
+}
+label{
+    cursor:pointer;
+    display:block;
+    font-weight:bold;
+    width:100%;
+}
+input[type=email],
+input[type=password],
+input[type=text],
+select,
+textarea{
+    display:block;
+    width:calc(100% - 2px);
+    width:100%;
+}
+/*classes desktop e mobile*/
+.center{
+    text-align:center;
+}
+/*fix by http://browserhacks.com*/
+@supports (-moz-appearance:meterbar) {
+    input[type=email],
+    input[type=password],
+    input[type=text]{
+        width:calc(100% - 1.5em);
+    }
+    select{
+        margin-left: -1px;
+        width:calc(100% - 0.5em);
+    }
+    textarea{
+        width:calc(100% - 1em);
+    }
+}
+/*desktop*/
+@media ( min-width : 1300px) {
+    .desktop{
+        display:block;
+        visibility: visible;
+    }
+    .mobile{
+        display: none;
+        visibility: hidden;
+    }
+    .r {
+        width:auto;
+    }
+    .r > .g1,
+    .r > .g2,
+    .r > .g3,
+    .r > .g4,
+    .r > .g5,
+    .r > .g6,
+    .r > .g7,
+    .r > .g8,
+    .r > .g9,
+    .r > .g10,
+    .r > .g11,
+    .r > .g12{
+        display: block;
+        float: left;
+        width: 100%;
+        min-height: 30px;
+        margin-left: 0.75%;
+    }
+    .r > .g1:first-child,
+    .r > .g2:first-child,
+    .r > .g3:first-child,
+    .r > .g4:first-child,
+    .r > .g5:first-child,
+    .r > .g6:first-child,
+    .r > .g7:first-child,
+    .r > .g8:first-child,
+    .r > .g9:first-child,
+    .r > .g10:first-child,
+    .r > .g11:first-child,
+    .r > .g12:first-child{
+        margin-left: 0;
+    }
+    .r:after,
+    .r:before{
+        display: table;
+        line-height: 0;
+        content: "";
+    }
+    .r:after {
+        clear: both;
+    }
+    .r .g12 {
+        width: 100%;
+    }
+    .r .g11 {
+        width: 91.4%;
+    }
+    .r .g10 {
+        width: 82.9%;
+    }
+    .r .g9 {
+        width: 74.4%;
+    }
+    .r .g8 {
+        width: 65.9%;
+    }
+    .r .g7 {
+        width: 57.4%;
+    }
+    .r .g6 {
+        width: 48.9%;
+    }
+    .r .g5 {
+        width: 40.4%;
+    }
+    .r .g4 {
+        width: 31.9%;
+    }
+    .r .g3 {
+        width: 23.4%;
+    }
+    .r .g2 {
+        width: 14.8%;
+    }
+    .r .g1 {
+        width: 6.3%;
+    }
+    .c {
+        margin:0 auto;
+        width:1300px;
+    }
+}
+/*mobile*/
+@media ( max-width : 1300px) {
+    .desktop{
+        display: none;
+        visibility: hidden;
+    }
+    .mobile{
+        display:block;
+        visibility: visible;
+    }
+    .c {
+        margin: 0;
+        width: 100%;
+    }
+    .g1,
+    .g2,
+    .g3,
+    .g4,
+    .g5,
+    .g6,
+    .g7,
+    .g8,
+    .g9,
+    .g10,
+    .g11,
+    .g12{
+        display: block;
+        float: none;
+        padding: 0 10px;
+        margin: 0 auto;
+        width: auto;
+    }
+}

@@ -174,4 +174,7 @@ textarea{
     }
 }
 /*Mapa*/
-#map { height: 480px; }
+#map {
+    height: 400px;
+    max-width: 100%;
+}

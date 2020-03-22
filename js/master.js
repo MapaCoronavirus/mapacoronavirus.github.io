@@ -44,16 +44,10 @@ function clicouEm(sigla){
     };
     var nomeDoEstado=estados[sigla].name;
     $('#país').hide();
+    $('#estado').html('');
     var arr = getDados();
     arr.forEach(function (item, index) {
         if(item[1]==sigla){
-            // 'País',
-            // 'UF',
-            // 'Total',
-            // 'Total (MS)',
-            // 'Diferença',
-            // 'Mortes',
-            // 'Site'
             var casosConfirmados=item[2];
             var mortes=item[5];
             var site=item[6];
@@ -61,9 +55,12 @@ function clicouEm(sigla){
             <h2>${nomeDoEstado}</h2>
             <h3>Casos confirmados:</h3><h1>${casosConfirmados}</h1>
             <h3>Mortes:</h3><h1>${mortes}</h1>
-            <h3>Site:</h3><a href="${site}" target="_blank">${site}</a>
+            <h3>Site:</h3><a href="${site}" target="_blank">${site}</a><br><br>
+            <button type="button" onclick="javascript:verPaís();">
+            Ver todos os estados
+            </button>
             `;
-            $('#estado').html(detalhesDoEstado);
+            $('#estado').html(detalhesDoEstado).show();
         }
     });
 }
@@ -74,6 +71,11 @@ function getDados(){
 
 function setDados(arr){
     dados=arr;
+}
+
+function verPaís(){
+    $('#estado').hide();
+    $('#país').show();
 }
 
 $(function(){
@@ -103,6 +105,7 @@ $(function(){
             ];
             var cols=$.extend({},colNames);//array2object
             delete arr[0];//remove a linha do cabeçalho
+            delete arr[1];//remove a linha do total
             setDados(arr);
             //converter tabela json para html
             var html = '<h2>Todos estados</h2>';

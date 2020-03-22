@@ -114,8 +114,8 @@ $(function(){
             }
             var colNames=[
                 'País',
-                'UF',
-                'Total',
+                'Estado',
+                'Casos',
                 'Total (MS)',
                 'Diferença',
                 'Mortes',
@@ -148,7 +148,7 @@ $(function(){
             $(uniqueTableSelector).DataTable( {
                 "order": [[ 2, "desc" ]],
                 "pageLength": 8,
-                "searching": false,
+                // "searching": false,
                 "lengthChange":false,
                 "language": {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.20/i18n/Portuguese-Brasil.json"

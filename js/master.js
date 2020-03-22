@@ -1,40 +1,22 @@
 var brasiliaLatLong=[-15.793889, -47.882778];
-var creditosStr=`Criado por
-<a target=\"_blank\" href='https://github.com/aicoutos'>
+var creditosStr=`Site criado por
+<a target="_blank" href='https://github.com/aicoutos'>
 @aicoutos
-</a>`;
+</a>
+| Dados fornecidos por
+<a target="_blank" href="https://github.com/wcota">
+@wcota
+</a>
+`;
+var dados;
 var estados=[
-    "AC",
-    "AL",
-    "AM",
-    "AP",
-    "BA",
-    "CE",
-    "DF",
-    "ES",
-    "GO",
-    "MA",
-    "MG",
-    "MS",
-    "MT",
-    "PA",
-    "PB",
-    "PE",
-    "PI",
-    "PR",
-    "RJ",
-    "RN",
-    "RO",
-    "RR",
-    "RS",
-    "SC",
-    "SE",
-    "SP",
-    "TO"
+    "AC","AL","AM","AP","BA","CE","DF","ES","GO","MA","MG","MS","MT","PA","PB",
+    "PE","PI","PR","RJ","RN","RO","RR","RS","SC","SE","SP","TO"
 ];
 var map = L.map('map').setView(brasiliaLatLong, 4);
 
-L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+L.tileLayer.wms('http://ows.mundialis.de/services/service?', {
+    layers: 'TOPO-OSM-WMS',
     maxZoom: 18,
     attribution: creditosStr
 }).addTo(map);
@@ -61,16 +43,47 @@ function clicouEm(sigla){
         }
     };
     var nomeDoEstado=estados[sigla].name;
-    $('#detalhes').html(nomeDoEstado);
+    $('#país').hide();
+    var arr = getDados();
+    arr.forEach(function (item, index) {
+        if(item[1]==sigla){
+            // 'País',
+            // 'UF',
+            // 'Total',
+            // 'Total (MS)',
+            // 'Diferença',
+            // 'Mortes',
+            // 'Site'
+            var casosConfirmados=item[2];
+            var mortes=item[5];
+            var site=item[6];
+            var detalhesDoEstado=`
+            <h2>${nomeDoEstado}</h2>
+            <h3>Casos confirmados:</h3><h1>${casosConfirmados}</h1>
+            <h3>Mortes:</h3><h1>${mortes}</h1>
+            <h3>Site:</h3><a href="${site}" target="_blank">${site}</a>
+            `;
+            $('#estado').html(detalhesDoEstado);
+        }
+    });
+}
+
+function getDados(){
+    return dados;
+}
+
+function setDados(arr){
+    dados=arr;
 }
 
 $(function(){
     var url='https://raw.githubusercontent.com/wcota/covid19br/master/cases-brazil-total.csv';
-    var tableSelector='#brasil';
+    var tableSelector='#país';
     $.ajax({
         url: url,
         type: 'get',
         success: function(data) {
+            //converter csv para json
             var arr=$.csv.toArrays(data);
             var i=0;
             var numberOfColumns=7;
@@ -90,21 +103,21 @@ $(function(){
             ];
             var cols=$.extend({},colNames);//array2object
             delete arr[0];//remove a linha do cabeçalho
-            var html = '<h2>Número de casos</h2>';
+            setDados(arr);
+            //converter tabela json para html
+            var html = '<h2>Todos estados</h2>';
             html=html+ToTable(cols,arr);
             $(tableSelector).html(html);
-
             //esconder colunas
             var TableColumnHider = window.module.exports;// simulate module loader
             var uniqueTableSelector = tableSelector+' table';
             var hider = new TableColumnHider(uniqueTableSelector);
             hider.hideColumns([1,4,5,7]);
-
             //paginação
             var linha=$(uniqueTableSelector+' tr:eq(0)').html();
             $(uniqueTableSelector+' tr:eq(0)').remove();
             $(uniqueTableSelector).prepend('<thead>'+linha+'</thead>')
-            // tabled.create(document.querySelector(uniqueTableSelector));
+            //datatable
             $(uniqueTableSelector).DataTable( {
                 "order": [[ 2, "desc" ]],
                 "pageLength": 8,

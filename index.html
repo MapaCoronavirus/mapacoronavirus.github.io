@@ -4,8 +4,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <title>Mapa do Coronavirus no Brasil</title>
-    <link rel="stylesheet" type="text/css" href="css/master.css">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.css" />
+    <link rel="stylesheet" href="css/master.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
 </head>
 <body>
     <div class="c">
@@ -18,8 +19,13 @@
             <div class="g8">
                 <div id="map"></div>
             </div>
-            <div class="g4" id="detalhes">
-                detalhes
+            <div class="g4">
+                <div id="detalhes">
+
+                </div>
+                <div id="brasil">
+
+                </div>
             </div>
         </div>
         <div class="r">
@@ -32,8 +38,17 @@
         </div>
     </div>
 </div>
-<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
-<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js'></script>
-<script type="text/javascript" src="js/master.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js'></script>
+<script src="js/jquery.csv.min.js"></script>
+<script src="js/ToTable.js"></script>
+<!-- <script src="js/tabled.min.js"></script> -->
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+window.module = {};// simulate module loader
+</script>
+<script src="js/TableHide.js"></script>
+
+<script src="js/master.js"></script>
 </body>
 </html>

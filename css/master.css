@@ -177,7 +177,7 @@ textarea{
 h1,#estado h2{
     color:green;
 }
-h2,#estado h1{
+h2,#estado h1,#país h1{
     color:red;
 }
 #map {

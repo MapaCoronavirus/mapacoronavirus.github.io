@@ -14,6 +14,8 @@ var estados=[
     "PE","PI","PR","RJ","RN","RO","RR","RS","SC","SE","SP","TO"
 ];
 var map = L.map('map').setView(brasiliaLatLong, 4);
+var totalDeCasos;
+var totalDeMortos;
 
 L.tileLayer.wms('http://ows.mundialis.de/services/service?', {
     layers: 'TOPO-OSM-WMS',
@@ -69,8 +71,24 @@ function getDados(){
     return dados;
 }
 
+function getTotalDeCasos(){
+    return totalDeCasos;
+}
+
+function getTotalDeMortos(){
+    return totalDeMortos;
+}
+
 function setDados(arr){
     dados=arr;
+}
+
+function setTotalDeCasos(num){
+    totalDeCasos=num;
+}
+
+function setTotalDeMortos(num){
+    totalDeMortos=num;
 }
 
 function verPaís(){
@@ -105,10 +123,16 @@ $(function(){
             ];
             var cols=$.extend({},colNames);//array2object
             delete arr[0];//remove a linha do cabeçalho
+            setTotalDeCasos(arr[1][2]);
+            setTotalDeMortos(arr[1][5]);
             delete arr[1];//remove a linha do total
             setDados(arr);
             //converter tabela json para html
-            var html = '<h2>Todos estados</h2>';
+            var casos=getTotalDeCasos();
+            var mortos=getTotalDeMortos();
+            var html = `
+            <h1>${casos} casos, ${mortos} mortes</h1>
+            `;
             html=html+ToTable(cols,arr);
             $(tableSelector).html(html);
             //esconder colunas

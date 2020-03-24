@@ -1,15 +1,16 @@
 var brasiliaLatLong=[-15.793889, -47.882778];
 var creditosStr=`Site criado por
-<a target="_blank" href='https://github.com/aicoutos'>
+<a target="_blank" href='https://twitter.com/aicoutos'>
 @aicoutos
 </a>
 | Dados fornecidos por
-<a target="_blank" href="https://github.com/wcota">
+<a target="_blank" href="https://twitter.com/wlcota">
 @wcota
 </a>
 `;
 var dados;
 var map = L.map('map').setView(brasiliaLatLong, 4);
+var marcador=new Array();
 var totalDeCasos;
 var totalDeMortos;
 
@@ -22,23 +23,29 @@ L.tileLayer.wms('http://ows.mundialis.de/services/service?', {
 function adicionarMarcadores(){
     var keys = Object.keys(estados)
     var len = keys.length;
-    var i,key;
+    var i,k;
     for (i = 0; i < len; i++) {
-        key = keys[i];
-        var estado=estados[key];
+        k = keys[i];
+        var estado=estados[k];
         //marcadores
         var myIcon = L.icon({
             iconUrl: 'img/covid.png',
             iconSize: [25,25]
         });
-        var marker = new L.Marker(estado.location,{icon: myIcon}).on('click', function(){
-            clicouEm(key);
-        }).addTo(map);
         var optsTooltip={
             icon:'img/covid.png',
-            permanent:true
+            sticky:true
         };
-        marker.bindTooltip(estado.name,optsTooltip).openTooltip();
+        var value = new L.Marker(estado.location,{
+            icon: myIcon,
+            title: k
+        })
+        .on('click', function(){
+            clicouEm(this.options.title);
+        })
+        .addTo(map);
+        setMarcador(i,value);
+        getMarcador(i).bindTooltip(estado.name,optsTooltip);
         //contornos dos estados
         var highlightStyle1 = {
             //https://leafletjs.com/reference-1.6.0.html#path-option
@@ -55,7 +62,7 @@ function adicionarMarcadores(){
                 return highlightStyle1;
             }
         });
-        var track = new L.KML('kml/'+key+'.kml', {async: true})
+        var track = new L.KML('kml/'+k+'.kml', {async: true})
         .on('loaded', function (e) {
             this.setStyle(highlightStyle1);
         })
@@ -64,7 +71,7 @@ function adicionarMarcadores(){
 }
 
 function clicouEm(sigla){
-    var estados=estados;
+    var estados=getEstados();
     var nomeDoEstado=estados[sigla].name;
     $('#país').hide();
     $('#estado').html('');
@@ -92,6 +99,14 @@ function getDados(){
     return dados;
 }
 
+function getEstados(){
+    return estados;
+}
+
+function getMarcador(i){
+    return marcador[i];
+}
+
 function getTotalDeCasos(){
     return totalDeCasos;
 }
@@ -103,6 +118,10 @@ function getTotalDeMortos(){
 function setDados(arr){
     dados=arr;
     adicionarMarcadores();
+}
+
+function setMarcador(key,value){
+    marcador[key]=value;
 }
 
 function setTotalDeCasos(num){

@@ -9,13 +9,21 @@ var creditosStr=`Site criado por
 </a>
 `;
 var dados;
-var estados=[
-    "AC","AL","AM","AP","BA","CE","DF","ES","GO","MA","MG","MS","MT","PA","PB",
-    "PE","PI","PR","RJ","RN","RO","RR","RS","SC","SE","SP","TO"
-];
 var map = L.map('map').setView(brasiliaLatLong, 4);
 var totalDeCasos;
 var totalDeMortos;
+var keys = Object.keys(estados)
+var len = keys.length;
+var i,key;
+for (i = 0; i < len; i++) {
+    key = keys[i];
+    var estado=estados[key];
+    var marker = new L.Marker(estado.location).on('click', function(){
+        clicouEm(key);
+    }).addTo(map);
+    marker.bindTooltip(estado.name).openTooltip();
+
+}
 
 L.tileLayer.wms('http://ows.mundialis.de/services/service?', {
     layers: 'TOPO-OSM-WMS',
@@ -23,15 +31,10 @@ L.tileLayer.wms('http://ows.mundialis.de/services/service?', {
     attribution: creditosStr
 }).addTo(map);
 
-var marker = new L.Marker([-30, -53]).on('click', function(){
-    clicouEm('RS');
-}).addTo(map);
-marker.bindTooltip("Rio Grande do Sul").openTooltip();
-
-var marker = new L.Marker([-27.27, -50.49]).on('click', function(){
-    clicouEm('SC');
-}).addTo(map);
-marker.bindTooltip('Santa Catarina').openTooltip();
+function clicouEm(sigla){
+    var table = $('#país table').DataTable();
+    table.search(sigla).draw();
+}
 
 function clicouEm(sigla){
     var estados={

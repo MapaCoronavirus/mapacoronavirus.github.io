@@ -181,6 +181,6 @@ h2,#estado h1,#país h1{
     color:red;
 }
 #map {
-    height: 480px;
+    height: 500px;
     max-width: 100%;
 }

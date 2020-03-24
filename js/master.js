@@ -12,57 +12,56 @@ var dados;
 var map = L.map('map').setView(brasiliaLatLong, 4);
 var totalDeCasos;
 var totalDeMortos;
-var keys = Object.keys(estados)
-var len = keys.length;
-var i,key;
-for (i = 0; i < len; i++) {
-    key = keys[i];
-    var estado=estados[key];
-    //marcadores
-    var myIcon = L.icon({
-        iconUrl: 'img/covid.png',
-        iconSize: [25,25]
-    });
-    var marker = new L.Marker(estado.location,{icon: myIcon}).on('click', function(){
-        clicouEm(key);
-    }).addTo(map);
-    var optsTooltip={
-        icon:'img/covid.png',
-        permanent:true
-    };
-
-    marker.bindTooltip(estado.name,optsTooltip).openTooltip();
-
-
-    //contornos dos estados
-    var highlightStyle1 = {
-        //https://leafletjs.com/reference-1.6.0.html#path-option
-        fillColor: "#0000FF",//background
-        fillOpacity:0,//opacidade do background
-        weight: 3,//tamanho do contorno
-        color: "#000000",//cor dos contorno
-        opacity: 0.5//opacidade do contorno
-    };
-
-    var customLayer = L.geoJson(null, {
-        // http://leafletjs.com/reference.html#geojson-style
-        style: function(feature) {
-            //if feature.properties.Name
-            return highlightStyle1;
-        }
-    });
-    var track = new L.KML('kml/'+key+'.kml', {async: true})
-    .on('loaded', function (e) {
-        this.setStyle(highlightStyle1);
-    })
-    .addTo(map);
-}
 
 L.tileLayer.wms('http://ows.mundialis.de/services/service?', {
     layers: 'TOPO-OSM-WMS',
     maxZoom: 18,
     attribution: creditosStr
 }).addTo(map);
+
+function adicionarMarcadores(){
+    var keys = Object.keys(estados)
+    var len = keys.length;
+    var i,key;
+    for (i = 0; i < len; i++) {
+        key = keys[i];
+        var estado=estados[key];
+        //marcadores
+        var myIcon = L.icon({
+            iconUrl: 'img/covid.png',
+            iconSize: [25,25]
+        });
+        var marker = new L.Marker(estado.location,{icon: myIcon}).on('click', function(){
+            clicouEm(key);
+        }).addTo(map);
+        var optsTooltip={
+            icon:'img/covid.png',
+            permanent:true
+        };
+        marker.bindTooltip(estado.name,optsTooltip).openTooltip();
+        //contornos dos estados
+        var highlightStyle1 = {
+            //https://leafletjs.com/reference-1.6.0.html#path-option
+            fillColor: "#0000FF",//background
+            fillOpacity:0,//opacidade do background
+            weight: 3,//tamanho do contorno
+            color: "#000000",//cor dos contorno
+            opacity: 0.5//opacidade do contorno
+        };
+        var customLayer = L.geoJson(null, {
+            // http://leafletjs.com/reference.html#geojson-style
+            style: function(feature) {
+                //if feature.properties.Name
+                return highlightStyle1;
+            }
+        });
+        var track = new L.KML('kml/'+key+'.kml', {async: true})
+        .on('loaded', function (e) {
+            this.setStyle(highlightStyle1);
+        })
+        .addTo(map);
+    }
+}
 
 function clicouEm(sigla){
     var estados=estados;
@@ -103,6 +102,7 @@ function getTotalDeMortos(){
 
 function setDados(arr){
     dados=arr;
+    adicionarMarcadores();
 }
 
 function setTotalDeCasos(num){

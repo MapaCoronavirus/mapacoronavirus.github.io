@@ -1,10 +1,10 @@
 var brasiliaLatLong=[-15.793889, -47.882778];
 var creditosStr=`Site criado por
-<a target="_blank" href='https://github.com/aicoutos'>
+<a target="_blank" href="https://dev.to/portugues/mapa-do-covid-19-no-brasil-2kc6">
 Anderson Ismael
 </a>
 | Dados fornecidos por
-<a target="_blank" href="https://github.com/wcota/">
+<a target="_blank" href="https://labs.wesleycota.com/sarscov2/br/">
 Wesley Cota
 </a>
 `;

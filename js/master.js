@@ -18,11 +18,14 @@ var i,key;
 for (i = 0; i < len; i++) {
     key = keys[i];
     var estado=estados[key];
+    //marcadores
     var marker = new L.Marker(estado.location).on('click', function(){
         clicouEm(key);
     }).addTo(map);
     marker.bindTooltip(estado.name).openTooltip();
-
+    //contornos dos estados
+    var track = new L.KML('kml/'+key+'.kml', {async: true})
+    .addTo(map);
 }
 
 L.tileLayer.wms('http://ows.mundialis.de/services/service?', {

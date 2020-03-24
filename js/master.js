@@ -9,11 +9,17 @@ var creditosStr=`Site criado por
 </a>
 `;
 var dados;
-var map = L.map('map').setView(brasiliaLatLong, 4);
+var map = L.map('map', { zoomControl: false }).setView(brasiliaLatLong, 4);
+map.touchZoom.disable();
+map.doubleClickZoom.disable();
+map.scrollWheelZoom.disable();
+map.boxZoom.disable();
+map.keyboard.disable();
 var marcador=new Array();
 var totalDeCasos;
 var totalDeMortos;
-
+//https://cartodb-basemaps-{s}.global.ssl.fastly.net/flatblue_nolabels/{z}/{x}/{y}.png
+//https://cartocdn_{s}.global.ssl.fastly.net/base-flatblue/{z}/{x}/{y}.png
 L.tileLayer.wms('http://ows.mundialis.de/services/service?', {
     layers: 'TOPO-OSM-WMS',
     maxZoom: 18,
@@ -24,6 +30,7 @@ function adicionarMarcadores(){
     var keys = Object.keys(estados)
     var len = keys.length;
     var i,k;
+    var iAsync=0;
     for (i = 0; i < len; i++) {
         k = keys[i];
         var estado=estados[k];
@@ -65,6 +72,12 @@ function adicionarMarcadores(){
         var track = new L.KML('kml/'+k+'.kml', {async: true})
         .on('loaded', function (e) {
             this.setStyle(highlightStyle1);
+            iAsync++;
+            console.log(iAsync);
+            if(iAsync==len){
+                $("#mapa").loading('stop');
+            }
+
         })
         .addTo(map);
     }
@@ -82,13 +95,13 @@ function clicouEm(sigla){
             var mortes=item[5];
             var site=item[6];
             var detalhesDoEstado=`
-            <h2>${nomeDoEstado}</h2>
-            <h3>Casos confirmados:</h3><h1>${casosConfirmados}</h1>
-            <h3>Mortes:</h3><h1>${mortes}</h1>
-            <h3>Site:</h3><a href="${site}" target="_blank">${site}</a><br><br>
             <button type="button" onclick="javascript:verPaís();">
-            Ver todos os estados
+            Casos no Brasil
             </button>
+            <h2>${nomeDoEstado}</h2>
+            <h3>Casos confirmados:</h3><h1 class="red">${casosConfirmados}</h1>
+            <h3>Mortes:</h3><h1>${mortes}</h1>
+            <h3>Site:</h3><a href="${site}" target="_blank">${site}</a>
             `;
             $('#estado').html(detalhesDoEstado).show();
         }
@@ -117,7 +130,6 @@ function getTotalDeMortos(){
 
 function setDados(arr){
     dados=arr;
-    adicionarMarcadores();
 }
 
 function setMarcador(key,value){
@@ -140,6 +152,14 @@ function verPaís(){
 $(function(){
     var url='https://raw.githubusercontent.com/wcota/covid19br/master/cases-brazil-total.csv';
     var tableSelector='#país';
+    $("#mapa").loading({
+        stoppable: true,
+        message: 'Carregando mapa...'
+    }).css('z-index', 1000);
+    $("#detalhes").loading({
+        stoppable: true,
+        message: 'Carregando dados...'
+    });
     $.ajax({
         url: url,
         type: 'get',
@@ -168,11 +188,16 @@ $(function(){
             setTotalDeMortos(arr[1][5]);
             delete arr[1];//remove a linha do total
             setDados(arr);
+            adicionarMarcadores();
             //converter tabela json para html
             var casos=getTotalDeCasos();
             var mortos=getTotalDeMortos();
             var html = `
-            <h1>${casos} casos, ${mortos} mortes</h1>
+            <h1>
+            <span class="red">
+            ${casos} casos
+            </span>/
+            ${mortos} mortes</h1>
             `;
             html=html+ToTable(cols,arr);
             $(tableSelector).html(html);
@@ -194,7 +219,12 @@ $(function(){
                 "language": {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.20/i18n/Portuguese-Brasil.json"
                 }
-            } );
+            } )
+            .on('draw',function(){
+                $("#detalhes").loading('stop');
+                $('#país').show();
+            });
+
         },
         error: function(jqXHR, textStatus, errorThrow){
             alert('HTTP '+jqXHR['status']+'\n'+errorThrow);

@@ -42,7 +42,7 @@ var estados={
         mortes:0
     },
     "ES":{
-        name:"Distrito Federal",
+        name:"Espirito Santo",
         location:[-20.266667, -40.283333],
         casos:0,
         mortes:0

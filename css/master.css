@@ -174,13 +174,16 @@ textarea{
     }
 }
 /*Mapa*/
-h1,#estado h2{
-    color:green;
-}
-h2,#estado h1,#país h1{
-    color:red;
+#detalhes,#map{
+    min-height: 500px;
 }
 #map {
     height: 500px;
     max-width: 100%;
+}
+#país{
+    display: none;
+}
+.red{
+    color: red;
 }

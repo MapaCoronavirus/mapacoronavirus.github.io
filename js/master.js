@@ -9,12 +9,12 @@ Wesley Cota
 </a>
 `;
 var dados;
-var map = L.map('map', { zoomControl: false }).setView(brasiliaLatLong, 4);
-map.touchZoom.disable();
-map.doubleClickZoom.disable();
-map.scrollWheelZoom.disable();
-map.boxZoom.disable();
-map.keyboard.disable();
+var map = L.map('map', { zoomControl: true }).setView(brasiliaLatLong, 4);
+// map.touchZoom.disable();
+// map.doubleClickZoom.disable();
+// map.scrollWheelZoom.disable();
+// map.boxZoom.disable();
+// map.keyboard.disable();
 var marcador=new Array();
 var totalDeCasos;
 var totalDeMortos;
@@ -44,7 +44,7 @@ function adicionarMarcadores(){
             sticky:true
         };
         var value = new L.Marker(estado.location,{
-            icon: myIcon,
+            //icon: myIcon,
             title: k
         })
         .on('click', function(){

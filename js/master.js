@@ -20,7 +20,7 @@ var totalDeCasos;
 var totalDeMortos;
 //https://cartodb-basemaps-{s}.global.ssl.fastly.net/flatblue_nolabels/{z}/{x}/{y}.png
 //https://cartocdn_{s}.global.ssl.fastly.net/base-flatblue/{z}/{x}/{y}.png
-L.tileLayer.wms('http://ows.mundialis.de/services/service?', {
+L.tileLayer.wms('https://ows.mundialis.de/services/service?', {
     layers: 'TOPO-OSM-WMS',
     maxZoom: 18,
     attribution: creditosStr

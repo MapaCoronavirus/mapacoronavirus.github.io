@@ -1,11 +1,11 @@
 var brasiliaLatLong=[-15.793889, -47.882778];
 var creditosStr=`Site criado por
-<a target="_blank" href='https://twitter.com/aicoutos'>
-@aicoutos
+<a target="_blank" href='https://github.com/aicoutos'>
+Anderson Ismael
 </a>
 | Dados fornecidos por
-<a target="_blank" href="https://twitter.com/wlcota">
-@wcota
+<a target="_blank" href="https://github.com/wcota/">
+Wesley Cota
 </a>
 `;
 var dados;
@@ -91,17 +91,21 @@ function clicouEm(sigla){
     var arr = getDados();
     arr.forEach(function (item, index) {
         if(item[1]==sigla){
-            var casosConfirmados=item[2];
-            var mortes=item[5];
+            var casos=item[2];
+            var mortos=item[5];
             var site=item[6];
+            var siglaLC=sigla.toLowerCase();
             var detalhesDoEstado=`
-            <button type="button" onclick="javascript:verPaís();">
-            Casos no Brasil
-            </button>
+            <h1>
+            <span class="red">
+            ${casos} casos
+            </span>/
+            ${mortos} mortes</h1>
             <h2>${nomeDoEstado}</h2>
-            <h3>Casos confirmados:</h3><h1 class="red">${casosConfirmados}</h1>
-            <h3>Mortes:</h3><h1>${mortes}</h1>
-            <h3>Site:</h3><a href="${site}" target="_blank">${site}</a>
+            <a href="${site}" target="_blank">${site}</a><br><br>
+            <a href="javascript:verPaís();">
+            Ver todos os casos do Brasil
+            </a>
             `;
             $('#estado').html(detalhesDoEstado).show();
         }
@@ -198,6 +202,7 @@ $(function(){
             ${casos} casos
             </span>/
             ${mortos} mortes</h1>
+            <h2>Brasil</h2>
             `;
             html=html+ToTable(cols,arr);
             $(tableSelector).html(html);
@@ -213,7 +218,7 @@ $(function(){
             //datatable
             $(uniqueTableSelector).DataTable( {
                 "order": [[ 2, "desc" ]],
-                "pageLength": 8,
+                "pageLength": 7,
                 // "searching": false,
                 "lengthChange":false,
                 "language": {

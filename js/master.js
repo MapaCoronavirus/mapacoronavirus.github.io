@@ -100,7 +100,7 @@ function clicouEm(sigla){
             var siglaLC=sigla.toLowerCase();
             var detalhesDoEstado=`
             <h1>
-            Covid-19 no ${nomeDoEstado}
+            COVID-19 no ${nomeDoEstado}
             </h1>
             <h1>
             <span class="red">
@@ -203,7 +203,7 @@ $(function(){
             var mortos=getTotalDeMortos();
             var html = `
             <h1>
-            COV-19 no Brasil
+            COVID-19 no Brasil
             </h1>
             <h1>
             <span class="red">

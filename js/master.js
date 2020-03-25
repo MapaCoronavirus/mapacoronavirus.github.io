@@ -80,7 +80,7 @@ function adicionarMarcadores(){
             if(iAsync==len){
                 $("#mapa").loading('stop');
                 $("#mapa").css('z-index',-10);
-                                $("#map").css('z-index',0);
+                $("#map").css('z-index',0);
             }
 
         })

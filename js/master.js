@@ -100,11 +100,13 @@ function clicouEm(sigla){
             var siglaLC=sigla.toLowerCase();
             var detalhesDoEstado=`
             <h1>
+            Covid-19 no ${nomeDoEstado}
+            </h1>
+            <h1>
             <span class="red">
             ${casos} casos
             </span>/
             ${mortos} mortes</h1>
-            <h2>${nomeDoEstado}</h2>
             <a href="${site}" target="_blank">${site}</a><br><br>
             <a href="javascript:verPaís();">
             Ver todos os casos do Brasil
@@ -201,11 +203,13 @@ $(function(){
             var mortos=getTotalDeMortos();
             var html = `
             <h1>
+            COV-19 no Brasil
+            </h1>
+            <h1>
             <span class="red">
             ${casos} casos
             </span>/
             ${mortos} mortes</h1>
-            <h2>Brasil</h2>
             `;
             html=html+ToTable(cols,arr);
             $(tableSelector).html(html);

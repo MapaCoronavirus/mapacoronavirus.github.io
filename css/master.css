@@ -177,9 +177,6 @@ textarea{
 #detalhes,#mapa{
     min-height: 500px;
 }
-.github-corner{
-    z-index: 200;
-}
 #map {
     height: 525px;
     max-width: 100%;

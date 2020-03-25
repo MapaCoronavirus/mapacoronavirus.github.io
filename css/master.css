@@ -178,15 +178,15 @@ textarea{
     min-height: 500px;
 }
 .github-corner{
-    z-index: 1;
+    z-index: 200;
 }
 #map {
     height: 525px;
     max-width: 100%;
-    z-index:-2;
+    z-index:-100;
 }
 #mapa{
-    z-index:-1000;
+    z-index: 0;
 }
 #país{
     display: none;

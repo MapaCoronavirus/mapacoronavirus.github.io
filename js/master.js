@@ -79,6 +79,8 @@ function adicionarMarcadores(){
             console.log(iAsync);
             if(iAsync==len){
                 $("#mapa").loading('stop');
+                $("#mapa").css('z-index',-10);
+                                $("#map").css('z-index',0);
             }
 
         })
@@ -168,7 +170,7 @@ $(function(){
     $("#detalhes").loading({
         stoppable: true,
         message: 'Carregando dados...'
-    });
+    }).css('z-index',-5);
     $.ajax({
         url: url,
         type: 'get',

@@ -164,7 +164,7 @@ $(function(){
     $("#mapa").loading({
         stoppable: true,
         message: 'Carregando mapa...'
-    }).css('z-index', 1000);
+    }).css('z-index',-2);
     $("#detalhes").loading({
         stoppable: true,
         message: 'Carregando dados...'

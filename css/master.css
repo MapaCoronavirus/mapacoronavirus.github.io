@@ -177,9 +177,16 @@ textarea{
 #detalhes,#mapa{
     min-height: 500px;
 }
+.github-corner{
+    z-index: 1;
+}
 #map {
     height: 525px;
     max-width: 100%;
+    z-index:-2;
+}
+#mapa{
+    z-index:-1000;
 }
 #país{
     display: none;

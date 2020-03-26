@@ -76,7 +76,6 @@ function adicionarMarcadores(){
         .on('loaded', function (e) {
             this.setStyle(highlightStyle1);
             iAsync++;
-            console.log(iAsync);
             if(iAsync==len){
                 $("#mapa").loading('stop');
                 $("#mapa").css('z-index',-10);

@@ -225,7 +225,7 @@ $(function(){
             $(uniqueTableSelector).prepend('<thead>'+linha+'</thead>')
             //datatable
             $(uniqueTableSelector).DataTable( {
-                "order": [[ 2, "desc" ]],
+                "order": [[ 5, "desc" ]],
                 "pageLength": 7,
                 // "searching": false,
                 "lengthChange":false,

@@ -101,7 +101,7 @@ function clicouEm(sigla){
             var siglaLC=sigla.toLowerCase();
             var detalhesDoEstado=`
             <h1>
-            COVID-19 no ${nomeDoEstado}
+            ${nomeDoEstado}
             </h1>
             <h1>
             <span class="red">

@@ -6,6 +6,9 @@ a,
 a:visited{
     color: blue;
 }
+body{
+    font-family: Arial,Helvetica,sans-serif;
+}
 button{
     cursor:pointer;
     display:block;

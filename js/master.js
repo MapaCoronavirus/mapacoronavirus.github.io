@@ -4,7 +4,7 @@ var creditosStr=`Site criado por
 Anderson Ismael
 </a>
 | Dados fornecidos por
-<a target="_blank" href="https://labs.wesleycota.com/sarscov2/br/">
+<a target="_blank" href="https://github.com/wcota/covid19br">
 Wesley Cota
 </a>
 `;

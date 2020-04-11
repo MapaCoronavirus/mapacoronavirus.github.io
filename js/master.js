@@ -97,7 +97,7 @@ function clicouEm(sigla){
         if(item[1]==sigla){
             var casos=item[2];
             var mortos=item[5];
-            var site=item[6];
+            var site=item[7];
             var siglaLC=sigla.toLowerCase();
             var detalhesDoEstado=`
             <h1>

@@ -178,7 +178,7 @@ textarea{
 }
 /*Mapa*/
 #detalhes,#mapa{
-    min-height: 500px;
+    min-height: 530px;
 }
 #map {
     height: 525px;
@@ -187,6 +187,13 @@ textarea{
 }
 #país{
     display: none;
+}
+/* cores */
+.green{
+    color:green;
+}
+.orange{
+    color:orange;
 }
 .red{
     color: red;

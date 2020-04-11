@@ -4,11 +4,16 @@ var creditosStr=`Site criado por
 Anderson Ismael
 </a>
 | Dados fornecidos por
+<a target="_blank" href="https://twitter.com/CoronavirusBra1/status/1247194769517928448">
+Coronavirus Brasil
+</a>
+&
 <a target="_blank" href="https://github.com/wcota/covid19br">
 Wesley Cota
 </a>
 `;
 var dados;
+var dadosGoogleDocs;
 var map = L.map('map', { zoomControl: false }).setView(brasiliaLatLong, 4);
 map.touchZoom.disable();
 map.doubleClickZoom.disable();
@@ -18,6 +23,8 @@ map.keyboard.disable();
 var marcador=new Array();
 var totalDeCasos;
 var totalDeMortos;
+var totalDeSuspeitos;
+var totalDeRecuperados;
 //https://cartodb-basemaps-{s}.global.ssl.fastly.net/flatblue_nolabels/{z}/{x}/{y}.png
 //https://cartocdn_{s}.global.ssl.fastly.net/base-flatblue/{z}/{x}/{y}.png
 //"http://s3.amazonaws.com/com.modestmaps.bluemarble/{z}-r{y}-c{x}.jpg"
@@ -87,89 +94,9 @@ function adicionarMarcadores(){
     }
 }
 
-function clicouEm(sigla){
-    var estados=getEstados();
-    var nomeDoEstado=estados[sigla].name;
-    $('#país').hide();
-    $('#estado').html('');
-    var arr = getDados();
-    arr.forEach(function (item, index) {
-        if(item[1]==sigla){
-            var casos=item[2];
-            var mortos=item[5];
-            var site=item[7];
-            var siglaLC=sigla.toLowerCase();
-            var detalhesDoEstado=`
-            <h1>
-            ${nomeDoEstado}
-            </h1>
-            <h1>
-            <span class="red">
-            ${casos} casos
-            </span>/
-            ${mortos} mortes</h1>
-            <a href="${site}" target="_blank">${site}</a><br><br>
-            <a href="javascript:verPaís();">
-            Ver todos os casos do Brasil
-            </a>
-            `;
-            $('#estado').html(detalhesDoEstado).show();
-        }
-    });
-}
-
-function getDados(){
-    return dados;
-}
-
-function getEstados(){
-    return estados;
-}
-
-function getMarcador(i){
-    return marcador[i];
-}
-
-function getTotalDeCasos(){
-    return totalDeCasos;
-}
-
-function getTotalDeMortos(){
-    return totalDeMortos;
-}
-
-function setDados(arr){
-    dados=arr;
-}
-
-function setMarcador(key,value){
-    marcador[key]=value;
-}
-
-function setTotalDeCasos(num){
-    totalDeCasos=num;
-}
-
-function setTotalDeMortos(num){
-    totalDeMortos=num;
-}
-
-function verPaís(){
-    $('#estado').hide();
-    $('#país').show();
-}
-
-$(function(){
-    var url='https://raw.githubusercontent.com/wcota/covid19br/master/cases-brazil-total.csv';
+function baixarDadosDoGithub(){
     var tableSelector='#país';
-    $("#mapa").loading({
-        stoppable: true,
-        message: 'Carregando mapa...'
-    }).css('z-index',-2);
-    $("#detalhes").loading({
-        stoppable: true,
-        message: 'Carregando dados...'
-    }).css('z-index',-5);
+    var url='https://raw.githubusercontent.com/wcota/covid19br/master/cases-brazil-total.csv';
     $.ajax({
         url: url,
         type: 'get',
@@ -202,6 +129,8 @@ $(function(){
             //converter tabela json para html
             var casos=getTotalDeCasos();
             var mortos=getTotalDeMortos();
+            var recuperados=getTotalDeRecuperados();
+            var suspeitos=getTotalDeSuspeitos();
             var html = `
             <h1>
             COVID-19 no Brasil
@@ -210,7 +139,14 @@ $(function(){
             <span class="red">
             ${casos} casos
             </span>/
-            ${mortos} mortes</h1>
+            ${mortos} mortes<br>
+            <span class="orange">
+            ${suspeitos} casos suspeitos
+            </span><br>
+            <span class="green">
+            ${recuperados} recuperados
+            </span>
+            </h1>
             `;
             html=html+ToTable(cols,arr);
             $(tableSelector).html(html);
@@ -226,7 +162,7 @@ $(function(){
             //datatable
             $(uniqueTableSelector).DataTable( {
                 "order": [[ 5, "desc" ]],
-                "pageLength": 7,
+                "pageLength": 5,
                 // "searching": false,
                 "lengthChange":false,
                 "language": {
@@ -243,4 +179,170 @@ $(function(){
             alert('HTTP '+jqXHR['status']+'\n'+errorThrow);
         }
     });
+}
+
+function baixarDadosDoGoogleDocs(){
+    $("#mapa").loading({
+        stoppable: true,
+        message: 'Carregando mapa...'
+    }).css('z-index',-2);
+    $("#detalhes").loading({
+        stoppable: true,
+        message: 'Carregando dados...'
+    }).css('z-index',-5);
+    //baixar os dados do google docs
+    var urlGoogleDocs='https://docs.google.com/spreadsheets/d/1MWQE3s4ef6dxJosyqvsFaV4fDyElxnBUB6gMGvs3rEc/export?format=csv';
+    $.ajax({
+        url: urlGoogleDocs,
+        type: 'get',
+        success: function(data) {
+            //converter o csv para array
+            var dadosGoogleDocs=$.csv.toArrays(data);
+            setDadosGoogleDocs(dadosGoogleDocs);
+            baixarDadosDoGithub();
+            //console.log(getDadosGoogleDocs());
+            setTotalDeRecuperados(dadosGoogleDocs[3][4]);
+            setTotalDeSuspeitos(dadosGoogleDocs[3][3]);
+            var estados=getEstados();
+            // for (var key in estados) {
+            //     console.log(key);
+            // }
+            var max=31;//fim da lista dos estados
+            for (i = 0; i < max; i++) {
+                if(estados.hasOwnProperty(dadosGoogleDocs[i][1])){
+                    /*
+                    1 sigla do estado
+                    2 casos
+                    3 suspeitos
+                    4 recuperados
+                    5 novos casos
+                    */
+                    var sigla=dadosGoogleDocs[i][1];
+                    var nRecuperados=dadosGoogleDocs[i][4]
+                    if(nRecuperados=='S/N'){
+                        nRecuperados='?';
+                    }
+                    estados[sigla].recuperados=nRecuperados;
+                    var nSuspeitos=dadosGoogleDocs[i][3];
+                    if(nSuspeitos=='S/N'){
+                        nSuspeitos='?';
+                    }
+                    estados[sigla].suspeitos=nSuspeitos;
+                }
+            }
+            console.log(dados);
+        },
+        error: function(jqXHR, textStatus, errorThrow){
+            alert('HTTP '+jqXHR['status']+'\n'+errorThrow);
+        }
+    });
+}
+
+function clicouEm(sigla){
+    var estados=getEstados();
+    var nomeDoEstado=estados[sigla].name;
+    var suspeitos=estados[sigla].suspeitos;
+    var recuperados=estados[sigla].recuperados;
+    $('#país').hide();
+    $('#estado').html('');
+    var arr = getDados();
+    arr.forEach(function (item, index) {
+        if(item[1]==sigla){
+            var casos=item[2];
+            var mortos=item[5];
+            var site=item[7];
+            var siglaLC=sigla.toLowerCase();
+            var detalhesDoEstado=`
+            <h1>
+            ${nomeDoEstado}
+            </h1>
+            <h1>
+            <span class="red">
+            ${casos} casos
+            </span>/
+            ${mortos} mortes<br>
+            <span class="orange">
+            ${suspeitos} casos suspeitos
+            </span><br>
+            <span class="green">
+            ${recuperados} recuperados
+            </span>
+            </h1>
+            <a href="${site}" target="_blank">${site}</a><br><br>
+            <a href="javascript:verPaís();">
+            Ver todos os casos do Brasil
+            </a>
+            `;
+            $('#estado').html(detalhesDoEstado).show();
+        }
+    });
+}
+
+function getDados(){
+    return dados;
+}
+
+function getDadosGoogleDocs(){
+    return dadosGoogleDocs;
+}
+
+function getEstados(){
+    return estados;
+}
+
+function getMarcador(i){
+    return marcador[i];
+}
+
+function getTotalDeCasos(){
+    return totalDeCasos;
+}
+
+function getTotalDeMortos(){
+    return totalDeMortos;
+}
+
+function getTotalDeRecuperados(){
+    return totalDeRecuperados;
+}
+
+function getTotalDeSuspeitos(){
+    return totalDeSuspeitos;
+}
+
+function setDados(arr){
+    dados=arr;
+}
+
+function setDadosGoogleDocs(arr){
+    dadosGoogleDocs=arr;
+}
+
+function setMarcador(key,value){
+    marcador[key]=value;
+}
+
+function setTotalDeCasos(num){
+    totalDeCasos=num;
+}
+
+function setTotalDeMortos(num){
+    totalDeMortos=num;
+}
+
+function setTotalDeRecuperados(num){
+    totalDeRecuperados=num;
+}
+
+function setTotalDeSuspeitos(num){
+    totalDeSuspeitos=num;
+}
+
+function verPaís(){
+    $('#estado').hide();
+    $('#país').show();
+}
+
+$(function(){
+    baixarDadosDoGoogleDocs();
 });

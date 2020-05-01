@@ -1,0 +1,15 @@
+0   country
+1   state
+2   totalCases
+3   totalCasesMS
+4   notConfirmedByMS
+5   deaths
+6   deathsMS
+7   URL
+8   deaths_per_100k_inhabitants
+9   totalCases_per_100k_inhabitants
+10  deaths_by_totalCases
+11  recovered
+12  suspects
+13  tests
+14  tests_per_100k_inhabitants

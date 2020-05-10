@@ -41,6 +41,7 @@ textarea{
     text-align:center;
 }
 .flag{
+    background-color: gray;
     border:1px solid #55544c;
 }
 /*fix by http://browserhacks.com*/

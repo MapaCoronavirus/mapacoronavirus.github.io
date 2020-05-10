@@ -256,6 +256,7 @@ function clicouEm(sigla){
             <h1>
             ${nomeDoEstado}
             </h1>
+            <img src="img/flags/${siglaLC}.png" width="300" height="210" class="flag">
             <h1>
             <span class="red">
             ${casos} casos

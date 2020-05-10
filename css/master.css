@@ -14,11 +14,18 @@ button{
     display:block;
     margin:0.75em auto;
 }
+h1{
+    margin:0.25em;
+}
 label{
     cursor:pointer;
     display:block;
     font-weight:bold;
     width:100%;
+}
+img{
+    max-height: auto;
+    max-width: 100%;
 }
 input[type=email],
 input[type=password],
@@ -32,6 +39,9 @@ textarea{
 /*classes desktop e mobile*/
 .center{
     text-align:center;
+}
+.flag{
+    border:1px solid #55544c;
 }
 /*fix by http://browserhacks.com*/
 @supports (-moz-appearance:meterbar) {
@@ -178,7 +188,7 @@ textarea{
 }
 /*Mapa*/
 #detalhes,#mapa{
-    min-height: 530px;
+    min-height: 520px;
 }
 #map {
     height: 525px;

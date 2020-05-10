@@ -42,7 +42,7 @@ textarea{
 }
 .flag{
     background-color: gray;
-    border:1px solid #55544c;
+    border:1px solid gray;
 }
 /*fix by http://browserhacks.com*/
 @supports (-moz-appearance:meterbar) {
